@@ -1,0 +1,5 @@
+# hangang_post.py — posting to Bluesky
+atproto>=0.0.55
+
+# Weather + water-temperature data come from public HTTP APIs
+# (Open-Meteo, Seoul Open Data Plaza) via the standard library.

@@ -1,0 +1,24 @@
+# Secrets — Seoul Open Data API key + bot handle (NEVER commit)
+hangang_config.json
+
+# Runtime state
+hangang_state.json
+
+# Referenced by hangang_post.py; keep local (confirm what this is)
+list.json
+
+# Backups
+*.bak.json
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# macOS
+.DS_Store
