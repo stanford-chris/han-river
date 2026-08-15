@@ -38,6 +38,8 @@ from zoneinfo import ZoneInfo
 
 from atproto import Client, client_utils
 
+import net_guard
+
 HERE = Path(__file__).parent
 CONFIG = HERE / 'hangang_config.json'
 STATE = HERE / 'hangang_state.json'
@@ -323,6 +325,12 @@ def main():
     api_key = config.get('api_key')
     if not api_key:
         sys.exit(f'Error: no api_key in {CONFIG}')
+
+    # Guarded like its siblings so it starts life with the protection they
+    # gained after the August 2026 outage. Fifteen minutes is a placeholder:
+    # revisit it against whatever schedule the launchd job ends up using, since
+    # com.chrisstanford.hangangbot is not loaded yet.
+    net_guard.require_network(900)
 
     now = datetime.now(SEOUL_TZ)
     state = json.loads(STATE.read_text()) if STATE.exists() else {}
