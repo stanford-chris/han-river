@@ -44,6 +44,21 @@ HERE = Path(__file__).parent
 CONFIG = HERE / 'hangang_config.json'
 STATE = HERE / 'hangang_state.json'
 KEYCHAIN_SERVICE = 'hanriver-bluesky'
+
+# Refuse anything unrecognised before the flags below are read. Bare membership
+# tests silently ignore what they do not recognise, so a typo (`--dryrun`) or a
+# reflex (`--help`) reads as neither flag and takes the ordinary scheduled
+# path, which posts. seoul-index published a real thread that way on 20 July
+# 2026; this bot is not live yet, so it gets the guard before it ever can.
+_KNOWN_ARGS = {'--dry-run', '--now'}
+
+if __name__ == '__main__':
+    _unknown = [a for a in sys.argv[1:] if a not in _KNOWN_ARGS]
+    if _unknown:
+        sys.exit(f'Unknown argument(s): {" ".join(_unknown)}. '
+                 f'Recognised: {" ".join(sorted(_KNOWN_ARGS))}. '
+                 f'Refusing to run (a bare run posts live).')
+
 DRY_RUN = '--dry-run' in sys.argv
 FORCE = '--now' in sys.argv  # post immediately, ignoring the random schedule
 
